@@ -28,19 +28,8 @@ export class PostComponent {
 
   onDelete(id: number) {
     this.postService.deletePostById(id).subscribe(
-      (res) => {
-        console.log(res);
-        window.alert('Deleted post with id: ' + id);
-        // this.posts = this.posts.filter(p: Post => { p.id !== id });
-      },
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        console.log('Completed!!!');
-      }
+      () => this.fetchAllPosts(),
+      (error) => console.log(error)
     );
-
-    console.log('onDelete', id);
   }
 }
