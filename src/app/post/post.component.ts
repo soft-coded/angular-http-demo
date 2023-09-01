@@ -12,24 +12,24 @@ export class PostComponent {
   constructor(private postService: PostService) {}
 
   // store response getting from service getAllPosts()
-  posts: any = [];
+  posts: Post[] = [];
 
   ngOnInit() {
     this.fetchAllPosts();
   }
 
   fetchAllPosts() {
-    this.postService.getAllPosts().subscribe(
-      (res) => (this.posts = res),
-      (error) => console.log(error),
-      () => console.log('Completed!!!')
-    );
+    this.postService.getAllPosts().subscribe({
+      next: (res) => (this.posts = res),
+      error: (error) => console.log(error),
+      complete: () => console.log('Completed!!!'),
+    });
   }
 
   onDelete(id: number) {
-    this.postService.deletePostById(id).subscribe(
-      () => this.fetchAllPosts(),
-      (error) => console.log(error)
-    );
+    this.postService.deletePostById(id).subscribe({
+      next: () => this.fetchAllPosts(),
+      error: (error) => console.log(error),
+    });
   }
 }
