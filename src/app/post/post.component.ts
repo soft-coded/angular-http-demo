@@ -5,41 +5,45 @@ import { Post } from '../post';
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  styleUrls: ['./post.component.css'],
 })
 export class PostComponent {
-
   // Add post service dependency - DI
-  constructor(private postService: PostService) { }
+  constructor(private postService: PostService) {}
 
   // store response getting from service getAllPosts()
   posts: any = [];
 
   ngOnInit() {
-    this.postService.getAllPosts().subscribe({
-      next: (res) => {
+    this.postService.getAllPosts().subscribe(
+      (res) => {
         this.posts = res;
         console.log(this.posts);
       },
-      error: (error) => { console.log(error) },
-      complete: () => { console.log("Completed!!!") }
-    });
-    console.log(this.posts);
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        console.log('Completed!!!');
+      }
+    );
   }
-
 
   onDelete(id: number) {
     this.postService.deletePostById(id).subscribe({
       next: (res) => {
         console.log(res);
-        window.alert("Deleted post with id: " + id);
+        window.alert('Deleted post with id: ' + id);
         // this.posts = this.posts.filter(p: Post => { p.id !== id });
       },
-      error: (error) => { console.log(error) },
-      complete: () => { console.log("Completed!!!") }
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        console.log('Completed!!!');
+      },
     });
 
-    console.log("onDelete", id);
+    console.log('onDelete', id);
   }
-
 }
