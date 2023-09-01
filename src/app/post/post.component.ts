@@ -15,10 +15,23 @@ export class PostComponent {
   posts: any = [];
 
   ngOnInit() {
+    this.fetchAllPosts();
+  }
+
+  fetchAllPosts() {
     this.postService.getAllPosts().subscribe(
+      (res) => (this.posts = res),
+      (error) => console.log(error),
+      () => console.log('Completed!!!')
+    );
+  }
+
+  onDelete(id: number) {
+    this.postService.deletePostById(id).subscribe(
       (res) => {
-        this.posts = res;
-        console.log(this.posts);
+        console.log(res);
+        window.alert('Deleted post with id: ' + id);
+        // this.posts = this.posts.filter(p: Post => { p.id !== id });
       },
       (error) => {
         console.log(error);
@@ -27,22 +40,6 @@ export class PostComponent {
         console.log('Completed!!!');
       }
     );
-  }
-
-  onDelete(id: number) {
-    this.postService.deletePostById(id).subscribe({
-      next: (res) => {
-        console.log(res);
-        window.alert('Deleted post with id: ' + id);
-        // this.posts = this.posts.filter(p: Post => { p.id !== id });
-      },
-      error: (error) => {
-        console.log(error);
-      },
-      complete: () => {
-        console.log('Completed!!!');
-      },
-    });
 
     console.log('onDelete', id);
   }
